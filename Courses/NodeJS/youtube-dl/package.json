@@ -1,0 +1,30 @@
+{
+  "name": "nerfloda",
+  "version": "1.0.0",
+  "description": "youtube downloader, uses koa, ytdl-code, and ffmpeg to download youtube videos",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [
+    "youtube_downloader",
+    "youtube",
+    "yt",
+    "download",
+    "nodejs",
+    "koa",
+    "koajs",
+    "node-ytdl-core",
+    "ffmpeg",
+    "video-downloader",
+    "video"
+  ],
+  "author": "Elemelon",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "ffmpeg": "0.0.4",
+    "koa": "^2.11.0",
+    "ytdl-core": "^1.0.7"
+  }
+}
