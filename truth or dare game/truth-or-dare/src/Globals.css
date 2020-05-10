@@ -1,0 +1,13 @@
+:root {
+  --palette-1: #d7dedc;
+  --palette-2: #cfcfcd;
+  --palette-3: #9a879d;
+  --palette-4: #7a3b69;
+  --palette-5: #a5ffd6;
+  --person-background: #378eff75;
+  --bot-background: #37c0ff;
+}
+
+body {
+  background-color: gray;
+}
