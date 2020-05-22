@@ -1,0 +1,37 @@
+:root {
+  --background-color: #5acfb0;
+  --form-color: #a6d8cb;
+  --text-color: #0e1f1a;
+}
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+header {
+  display: block;
+  text-align: center;
+  margin: 1.5em auto auto;
+  color: #d5fff3;
+  padding-bottom: 10px;
+}
+.form-control {
+  margin: 0.5em auto;
+  display: flex;
+  flex-direction: column;
+}
+#survey-form {
+  margin: auto 16em;
+  padding: 1em;
+  background-color: var(--form-color);
+  box-shadow: 1em 1em #337e6a;
+}
+#submit {
+  background-color: #fefdb8;
+  border: none;
+}
+#title {
+  margin-bottom: 10px;
+}
+#description {
+  margin-top: 0px;
+}
