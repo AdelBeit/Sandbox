@@ -44,4 +44,4 @@ async function remove(userId, connection) {
   }
 }
 
-module.exports = deleteUser;
+module.exports = { deleteUser: deleteUser };
