@@ -1,0 +1,15 @@
+extends layout
+
+block content
+     .loginForm
+          h1= title
+          form(method="POST" action="/api/getToken")
+               input(type="text" 
+                    name="username"
+                    placeholder="Username"
+                    value="a")
+               input(type="password"
+                    name="password"
+                    placeholder="Password"
+                    value="a")
+               input(type="submit" value="Submit")
