@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const TOKEN_SECRET = require("./token");
+const TOKEN_SECRET = require("./token").TOKEN_SECRET;
 const jwt = require("jsonwebtoken");
 
 // token authentication

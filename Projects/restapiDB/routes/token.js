@@ -13,7 +13,6 @@ const TOKEN_SECRET = crypto.randomBytes(64).toString("hex");
 /**
  * use the secret to make a jwt
  */
-
 function generateAccessToken(username, password) {
   return jwt.sign({ username: username, password: password }, TOKEN_SECRET, {
     expiresIn: "600s",
@@ -36,9 +35,6 @@ const authenticateUser = (req, res, next) => {
 function getToken(req, res, next) {
   console.log(req.body);
   const token = generateAccessToken(req.body.username, req.body.password);
-  // save token in session
-  // get the session cookie
-  // req.session.token = req.token;
   req.token = token;
   next();
 }
@@ -52,7 +48,6 @@ router.post("/getToken", authenticateUser, getToken, (req, res, next) => {
   // save token in session
   // get the session cookie
   req.session.token = req.token;
-  // res.send(req.token);
   res.redirect("/");
 });
 
