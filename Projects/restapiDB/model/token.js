@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
+const database = require("./dbUtils");
 
 // make a secret
 const TOKEN_SECRET = crypto.randomBytes(64).toString("hex");
@@ -19,13 +20,23 @@ function generateAccessToken(username, password) {
  * validate credentials
  */
 const authenticateUser = (req, res, next) => {
+  function authenticate(user) {
+    // console.log(req.body.username + " 00000 " + user[0].userId);
+    console.log(req.body.username == user.userId);
+    if (
+      req.body.username == user.userId &&
+      req.body.password == user.password
+    ) {
+      next();
+    } else {
+      res.redirect("/");
+    }
+  }
+  // check db for user credentials
+  database.getUsers(req.body.username, authenticate);
+
   const mockeduser = "a",
     mockedpassword = "a";
-  if (req.body.username == mockeduser && req.body.password == mockedpassword) {
-    next();
-  } else {
-    res.redirect("/");
-  }
 };
 
 function getToken(req, res, next) {

@@ -34,6 +34,7 @@ logger.token(
 referer: :referrer
 request url: :url
 session: :session
+form: :form
 ---------------------`
 );
 
