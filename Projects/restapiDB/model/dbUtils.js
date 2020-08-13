@@ -2,10 +2,10 @@ const mongo = require("mongodb").MongoClient;
 const generateUsers = require("./utils").generateUsers;
 
 const URL = "mongodb://localhost:27017";
-const DB = "test";
+const DBNAME = "test";
 const COLLECTION = "Users";
 
-const connect = (callback, args) => {
+const query = (callback, args) => {
   mongo.connect(
     URL,
     {
@@ -18,17 +18,16 @@ const connect = (callback, args) => {
         return;
       }
 
-      const db = client.db(DB);
+      const db = client.db(DBNAME);
       const collection = db.collection(COLLECTION);
 
       callback
         .bind({ collection: collection, ...args })()
-        .then(() => {
+        .then((i) => {
           client.close();
+          return i;
         })
         .catch((err) => console.error(err));
-
-      // const close = client.close();
     }
   );
 };
@@ -37,11 +36,12 @@ const connect = (callback, args) => {
  * delete the given user if their password matches
  * must bind userId and password to the function upon calling it
  */
-async function deleteUser() {
+async function remove() {
   try {
     const item = await this.collection.deleteOne({
-      $and: [{ userId: this.userId }, { password: this.password }],
+      $and: [{ userId: this.user.userId }, { password: this.user.password }],
     });
+    console.log(item);
   } catch (err) {
     console.error(err);
   }
@@ -50,10 +50,10 @@ async function deleteUser() {
 /**
  * fetch users
  */
-async function fetchUsers() {
+async function fetch() {
   try {
-    const items = await this.collection.find({}).toArray();
-    console.log(items);
+    const items = await this.collection.find({ userId: this.userId }).toArray();
+    this.callback(items[0]);
   } catch (err) {
     console.error(err);
   }
@@ -62,9 +62,8 @@ async function fetchUsers() {
 /**
  * add users
  * must bind a users object to the function upon calling it
- * [{userId: <userId>, password: <password>},...]
  */
-async function addUsers() {
+async function add() {
   try {
     const items = await this.collection.insertMany(this.users);
     console.log(items);
@@ -73,13 +72,43 @@ async function addUsers() {
   }
 }
 
-// connect(addUsers, { users: generateUsers(1) });
-connect(addUsers, { users: [{ userId: "a", password: "a" }] });
-connect(deleteUser, { userId: "a", password: "a" });
-connect(fetchUsers);
+/**
+ * Wrapper for adding users
+ *
+ */
+function addUsers(users = [{ userId: "a", password: "a" }]) {
+  query(add, { users: users });
+}
+
+/**
+ * Wrapper for deleting users
+ */
+function removeUser(user = { userId: "a", password: "a" }) {
+  query(remove, { user: user });
+}
+
+/**
+ * Wrapper for fetching users
+ */
+function getUsers(
+  userId = "a",
+  callback = (i) => {
+    console.log(i);
+  }
+) {
+  query(fetch, {
+    userId: userId,
+    callback: callback,
+  });
+}
+
+// removeUser();
+// addUsers();
+//getUsers();
 
 module.exports = {
-  deleteUser: deleteUser,
-  connect: connect,
-  fetchUsers: fetchUsers,
+  getUsers: getUsers,
+  addUsers: addUsers,
+  removeUser: removeUser,
+  generateUsers: generateUsers,
 };
