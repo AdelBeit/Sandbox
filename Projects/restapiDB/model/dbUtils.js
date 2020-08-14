@@ -5,6 +5,12 @@ const URL = "mongodb://localhost:27017";
 const DBNAME = "test";
 const COLLECTION = "Users";
 
+/**
+ * connect to db and perform various actions on it using the callback method
+ *
+ * @param {function} callback: queries to be performed on db
+ * @param {object} args: an object that holds the required args for the callback method
+ */
 const query = (callback, args) => {
   mongo.connect(
     URL,
@@ -21,11 +27,11 @@ const query = (callback, args) => {
       const db = client.db(DBNAME);
       const collection = db.collection(COLLECTION);
 
+      // call the callback method with the given arguments then close connection
       callback
         .bind({ collection: collection, ...args })()
-        .then((i) => {
+        .then(() => {
           client.close();
-          return i;
         })
         .catch((err) => console.error(err));
     }
@@ -90,7 +96,7 @@ function removeUser(user = { userId: "a", password: "a" }) {
 /**
  * Wrapper for fetching users
  */
-function getUsers(
+function getUser(
   userId = "a",
   callback = (i) => {
     console.log(i);
@@ -104,10 +110,10 @@ function getUsers(
 
 // removeUser();
 // addUsers();
-//getUsers();
+// getUser();
 
 module.exports = {
-  getUsers: getUsers,
+  getUser: getUser,
   addUsers: addUsers,
   removeUser: removeUser,
   generateUsers: generateUsers,
