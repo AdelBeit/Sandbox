@@ -21,22 +21,23 @@ function generateAccessToken(username, password) {
  */
 const authenticateUser = (req, res, next) => {
   function authenticate(user) {
-    // console.log(req.body.username + " 00000 " + user[0].userId);
-    console.log(req.body.username == user.userId);
-    if (
-      req.body.username == user.userId &&
-      req.body.password == user.password
-    ) {
-      next();
+    if (user) {
+      if (
+        req.body.username == user.userId &&
+        req.body.password == user.password
+      ) {
+        next();
+      } else {
+        res.append("error-message", "incorrect password");
+        res.redirect("/");
+      }
     } else {
+      res.apend("error-message", "user not found");
       res.redirect("/");
     }
   }
   // check db for user credentials
-  database.getUsers(req.body.username, authenticate);
-
-  const mockeduser = "a",
-    mockedpassword = "a";
+  database.getUser(req.body.username, authenticate);
 };
 
 function getToken(req, res, next) {
