@@ -1,0 +1,23 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon "
+  },
+  "keywords": [
+    "portfolio",
+    "adelbeit",
+    "adelbeitvashahi",
+    "adele",
+    "adel",
+    "beitvashahi"
+  ],
+  "author": "adel beitvashahi",
+  "license": "ISC",
+  "dependencies": {
+    "create-next-app": "^9.5.2",
+    "gray-matter": "^4.0.2"
+  }
+}
