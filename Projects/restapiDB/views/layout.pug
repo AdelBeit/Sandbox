@@ -4,6 +4,9 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    if referer
-      p.referer= referer
+    form
+      button(formaction="./") home
+      button(formaction="./users") users
+      button(formaction="./login") login
+      button(formaction="./logout") logout
     block content

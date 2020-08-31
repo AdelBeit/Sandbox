@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-// get login page
-router.get("/", function (req, res) {
-  res.render("login", { title: "Login" });
+router.all("/", (req, res) => {
+  req.session.destroy();
+  res.redirect("/login");
 });
 
 module.exports = router;
