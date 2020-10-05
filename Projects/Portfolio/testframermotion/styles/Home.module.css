@@ -1,5 +1,5 @@
 .container {
-  min-height: 100vh;
+  min-height: 10vh;
   padding: 0 0.5rem;
   display: flex;
   flex-direction: column;
@@ -122,6 +122,29 @@
 .back a {
   color: blue;
   text-decoration: underline;
+}
+
+.loadingMask {
+  background-color: black;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  opacity: 0.5;
+}
+
+.loadingStatic {
+  background-color: yellow;
+  border-radius: 1.25rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  opacity: 0.5;
+}
+
+.loading {
+  position: relative;
 }
 
 @media (max-width: 600px) {

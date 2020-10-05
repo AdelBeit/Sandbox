@@ -2,6 +2,8 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import Character from "../components/Character";
 
 const defaultEndpoint = `https://rickandmortyapi.com/api/character/`;
 
@@ -17,6 +19,10 @@ export async function getServerSideProps() {
 
 export default function Home({ data }) {
   const { info, results: defaultResults = [] } = data;
+  const [character, updateCharacter] = useState({
+    id: -1,
+    name: "Select a Character",
+  });
   const [results, updateResults] = useState(defaultResults);
   const [page, updatePage] = useState({
     ...info,
@@ -45,6 +51,21 @@ export default function Home({ data }) {
     request();
   }, [current]);
 
+  // useEffect(() => {
+  //   if (current.character.id === -1) return;
+  //   async function request() {
+  //     const res = await fetch(`${defaultEndpoint}${current.character.id}`);
+  //     const newCharacter = await res.json();
+  //     updateCharacter({
+  //       ...current.character.id,
+  //       ...newCharacter.name,
+  //     });
+  //     // return;
+  //   }
+
+  //   request();
+  // }, [current.character]);
+
   function handleLoadMore() {
     updatePage((prev) => {
       return {
@@ -52,6 +73,22 @@ export default function Home({ data }) {
         current: page?.next,
       };
     });
+  }
+
+  /**
+   * fetch the character that was clicked
+   * @param {int} id
+   */
+  function handleCharacterClick(id) {
+    async function request() {
+      const res = await fetch(`${defaultEndpoint}${id}`);
+      const newCharacter = await res.json();
+      updateCharacter({
+        name: newCharacter.name,
+        id: id,
+      });
+    }
+    request();
   }
 
   return (
@@ -62,25 +99,64 @@ export default function Home({ data }) {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Wubba Lubba Dub Dub!</h1>
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { scale: 0.95, opacity: 0 },
+            visible: { scale: 1, opacity: 1, transition: { delay: 2 } },
+          }}
+        >
+          <h1 className={styles.title}>Wubba Lubba Dub Dub!</h1>
+        </motion.div>
 
         <p className={styles.description}>Rick and Morty Character Wiki</p>
 
+        <Character data={character} key={Math.random() * character.id} />
+
         <div>
-          <ul className={styles.grid}>
+          <motion.ul
+            className={styles.grid}
+            initial="hidden"
+            animate="show"
+            variants={{
+              hidden: { opacity: 0 },
+              show: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.2,
+                },
+              },
+            }}
+          >
             {results.map((result) => {
               const { id, name } = result;
               return (
-                <li key={id} className={styles.card}>
-                  <Link href="/character/[id]" as={`/character/${id}`}>
-                    <a>
-                      <h3>{name}</h3>
-                    </a>
-                  </Link>
-                </li>
+                <motion.li
+                  variants={{ hidden: { opacity: 0 }, show: { opacity: 1 } }}
+                  whileHover={{
+                    position: "relative",
+                    zIndex: 1,
+                    background: "white",
+                    scale: 1.2,
+                    transition: {
+                      duration: 0.3,
+                    },
+                  }}
+                  key={id}
+                  className={styles.card}
+                >
+                  {/* <Link href="/character/[id]" as={`/character/${id}`}> */}
+                  {/* <button onClick={() => handleCharacterClick(id)}> */}
+                  <a onClick={() => handleCharacterClick(id)}>
+                    <h3>{name}</h3>
+                  </a>
+                  {/* </button> */}
+                  {/* </Link> */}
+                </motion.li>
               );
             })}
-          </ul>
+          </motion.ul>
         </div>
 
         <p>

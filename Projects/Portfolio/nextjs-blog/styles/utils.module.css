@@ -50,3 +50,8 @@
 .lightText {
   color: #999;
 }
+
+.animate {
+  height: 150px;
+  width: 150px;
+}

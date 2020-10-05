@@ -1,0 +1,2 @@
+interview prep
+redux, react, typescript, component, json
