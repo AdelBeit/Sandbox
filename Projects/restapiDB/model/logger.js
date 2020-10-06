@@ -16,6 +16,9 @@ logger.token("status", (req, res) => {
 logger.token("session", (req, res) => {
   return JSON.stringify(req.session);
 });
+logger.token("referer", (req, res) => {
+  return JSON.stringify(req.session.referer);
+});
 
 logger.token(
   "custom",
@@ -34,6 +37,7 @@ logger.token(
 referer: :referrer
 request url: :url
 session: :session
+form: :form
 ---------------------`
 );
 

@@ -16,21 +16,12 @@ function generateAccessToken(username, password) {
 }
 
 /**
- * validate credentials
+ * generate a token and save it in session
  */
-const authenticateUser = (req, res, next) => {
-  const mockeduser = "a",
-    mockedpassword = "a";
-  if (req.body.username == mockeduser && req.body.password == mockedpassword) {
-    next();
-  } else {
-    res.redirect("/");
-  }
-};
-
 function getToken(req, res, next) {
   const token = generateAccessToken(req.body.username, req.body.password);
-  req.token = token;
+  // save token in session
+  req.session.token = token;
   next();
 }
 
@@ -41,7 +32,7 @@ function authenticateToken(req, res, next) {
   // get jwt access token from req header
   const authHeader = req.headers["authorization"];
   let token = authHeader && authHeader.split(" ")[1];
-  // save token in session
+  // get token from session
   token = req.session.token;
   if (token == null) return res.redirect("/login"); // if there isn't any token
 
@@ -53,7 +44,6 @@ function authenticateToken(req, res, next) {
 }
 
 module.exports = {
-  authenticateUser: authenticateUser,
   authenticateToken: authenticateToken,
   getToken: getToken,
 };
